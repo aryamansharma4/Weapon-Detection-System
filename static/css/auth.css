@@ -1,0 +1,126 @@
+/* =============================================================
+   WDS Auth (Login / Signup)
+============================================================= */
+
+.auth-side{
+  display: none;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(700px 500px at 20% 20%, var(--signal-soft), transparent 60%),
+    radial-gradient(600px 500px at 90% 80%, var(--accent-2-soft), transparent 60%),
+    var(--bg-deep);
+  border-right: 1px solid var(--border-glass);
+  padding: 60px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (min-width: 900px){
+  .auth-side{ display: flex; }
+}
+
+.auth-side-content .eyebrow{ margin-bottom: 18px; }
+
+.auth-side-content h1{
+  max-width: 460px;
+  margin-bottom: 18px;
+}
+
+.auth-side-content p{
+  max-width: 420px;
+  font-size: 1.02rem;
+}
+
+.auth-scan{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, var(--signal-soft), transparent);
+  height: 40%;
+  animation: scanSweep 6s var(--ease-in-out) infinite;
+  opacity: .5;
+}
+
+@keyframes scanSweep{
+  0%{ transform: translateY(-100%); }
+  60%, 100%{ transform: translateY(260%); }
+}
+
+.auth-stats{
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.auth-stat .stat-num{
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--signal);
+}
+
+.auth-stat .stat-label{
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.auth-form-side{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.auth-box{
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-box .brand{
+  margin-bottom: 34px;
+  font-size: 1.2rem;
+}
+
+.auth-box h2{
+  margin-bottom: 8px;
+}
+
+.auth-box .lede{
+  margin-bottom: 30px;
+  font-size: 0.94rem;
+}
+
+.auth-footer-note{
+  margin-top: 22px;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.auth-footer-note a{
+  color: var(--signal);
+  font-weight: 600;
+}
+
+.password-field{
+  position: relative;
+}
+
+.password-toggle{
+  position: absolute;
+  right: 12px;
+  top: 40px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+}
+
+.password-toggle:hover{ color: var(--text-secondary); }
+
+.password-toggle svg{ width: 18px; height: 18px; }

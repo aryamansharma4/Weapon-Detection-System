@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Upload Detection — WDS{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">Image analysis</div>
+      <h1 class="page-title">Upload Detection</h1>
+      <p>Drop in a photo and WDS will scan it for weapons using the custom-trained YOLOv5 model.</p>
+    </div>
+  </div>
+
+  <div class="upload-grid">
+    <div class="card">
+      <form method="POST" enctype="multipart/form-data" data-loading-form data-upload-form>
+        <div class="dropzone reticle" data-dropzone tabindex="0" role="button" aria-label="Choose an image to upload">
+          <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M12 16V4M7 9l5-5 5 5"/>
+            <path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>
+          </svg>
+          <div class="dropzone-text" data-dropzone-text>Drag &amp; drop an image, or click to browse</div>
+          <div class="dropzone-hint">JPG, PNG — one image at a time</div>
+          <input class="dropzone-input" type="file" name="image" accept="image/*" data-file-input required>
+        </div>
+
+        <div class="preview-wrap" data-preview-wrap>
+          <img data-preview-img alt="Selected image preview">
+          <button type="button" class="preview-remove" data-preview-remove aria-label="Remove selected image">&times;</button>
+          <div class="preview-filename">
+            <span data-preview-name></span>
+            <span class="badge badge-neutral">Ready to scan</span>
+          </div>
+        </div>
+
+        <div class="upload-actions">
+          <button type="submit" class="btn btn-primary" disabled>
+            <span class="spinner"></span>
+            <span class="btn-label">Run Detection</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    {% if image %}
+    <div class="card">
+      <div class="section-head panel-head">
+        <h2>Detection Result</h2>
+        {% if detections %}
+        <span class="badge {{ 'badge-threat' if detections|length > 0 else 'badge-safe' }}">
+          <span class="badge-dot"></span>{{ detections|length }} object{{ 's' if detections|length != 1 else '' }} found
+        </span>
+        {% else %}
+        <span class="badge badge-safe"><span class="badge-dot"></span>No objects found</span>
+        {% endif %}
+      </div>
+
+      <div class="result-image-wrap">
+        <img src="{{ image }}" alt="Detection result">
+      </div>
+
+      {% if detections %}
+      <h3 class="subhead">Detected Objects</h3>
+      <div class="detections-grid">
+        {% for item in detections %}
+        <div class="card card--flat detection-card reticle">
+          <div class="detection-card-head">
+            <span class="d-name">{{ item.class }}</span>
+            <span class="badge {{ 'badge-threat' if item.class|lower != 'none' else 'badge-safe' }}">
+              <span class="badge-dot"></span>Object
+            </span>
+          </div>
+          <div class="confidence">
+            <div class="confidence-track">
+              <div class="confidence-fill {{ 'is-high' if item.confidence >= 0.7 else '' }}" style="width: {{ (item.confidence * 100)|round(0) }}%;"></div>
+            </div>
+            <span class="confidence-value">{{ "%.2f"|format(item.confidence * 100) }}%</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state empty-state--compact">
+        <h3>No objects detected</h3>
+        <p>The model didn't find anything above its confidence threshold in this image.</p>
+      </div>
+      {% endif %}
+    </div>
+    {% else %}
+    <div class="card empty-state">
+      <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v16h16"/><path d="M8 15l3-4 3 3 5-7"/></svg>
+      <h3>No scan yet</h3>
+      <p>Upload an image on the left to see detection results here.</p>
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}<script src="{{ url_for('static', filename='js/upload.js') }}"></script>{% endblock %}

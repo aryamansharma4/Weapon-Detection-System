@@ -1,0 +1,39 @@
+/* =============================================================
+   WDS Responsive
+   Breakpoints: >1200 desktop, 900-1200 laptop, 640-900 tablet,
+   <640 mobile. Mobile nav handled in layout.css via .nav-toggle
+   and .mobile-drawer.
+============================================================= */
+
+@media (max-width: 1200px){
+  .container{ width: 94%; }
+}
+
+@media (max-width: 900px){
+  .page-main{ padding: 32px 0 56px; }
+  .hero-grid{ grid-template-columns: 1fr; }
+  .dashboard-grid{ grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px){
+  .stat-grid{ grid-template-columns: repeat(2, 1fr); }
+  .quick-actions{ grid-template-columns: repeat(2, 1fr); }
+  .footer-inner{ flex-direction: column; align-items: flex-start; }
+  .split{ min-height: auto; }
+}
+
+@media (max-width: 560px){
+  .container{ width: 90%; }
+  .card{ padding: 20px; }
+  .stat-grid{ grid-template-columns: 1fr; }
+  .quick-actions{ grid-template-columns: 1fr; }
+  h1{ font-size: 1.7rem; }
+  .history-toolbar{ flex-direction: column; align-items: stretch; }
+  .table-wrap{ border-radius: var(--r-md); }
+  .modal{ max-width: none; }
+  .toast-stack{ right: 12px; left: 12px; width: auto; top: calc(var(--nav-height) + 10px); }
+}
+
+@media (max-width: 420px){
+  .brand span.brand-text{ font-size: 0.95rem; }
+}

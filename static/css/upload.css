@@ -1,0 +1,130 @@
+/* =============================================================
+   WDS Upload Detection
+============================================================= */
+
+.upload-grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.dropzone-input{
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dropzone-text{
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.dropzone-hint{
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.preview-wrap{
+  display: none;
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-glass);
+}
+
+.preview-wrap.is-visible{ display: block; }
+
+.preview-wrap img{
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  background: var(--bg-surface);
+}
+
+.preview-remove{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: rgba(5,7,12,.7);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border-glass-strong);
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-filename{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--bg-glass-soft);
+  border-top: 1px solid var(--border-glass);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.upload-actions{
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+@media (max-width: 560px){
+  .upload-actions{ flex-direction: column-reverse; }
+  .upload-actions .btn{ width: 100%; }
+}
+
+/* Result section */
+.result-image-wrap{
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-glass);
+  margin-bottom: 24px;
+}
+
+.result-image-wrap img{ width: 100%; }
+
+.result-summary{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.detections-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.detection-card{
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detection-card-head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.detection-card .d-name{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.02rem;
+  text-transform: capitalize;
+}

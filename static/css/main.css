@@ -1,0 +1,136 @@
+/* =============================================================
+   WDS Main Stylesheet
+   Import order matters: variables -> reset/base -> layout ->
+   components -> responsive. Page-specific files are linked
+   separately by each template.
+============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@import url('variables.css');
+@import url('layout.css');
+@import url('components.css');
+@import url('responsive.css');
+
+/* ---------------- Reset ---------------- */
+*,
+*::before,
+*::after{
+  box-sizing: border-box;
+}
+
+html{
+  scroll-behavior: smooth;
+}
+
+body{
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+}
+
+/* Ambient background: soft radial glow + faint scan grid */
+body{
+  background-image:
+    radial-gradient(1100px 600px at 12% -10%, var(--signal-soft), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, var(--accent-2-soft), transparent 55%),
+    linear-gradient(var(--bg-void), var(--bg-void));
+  background-attachment: fixed;
+}
+
+img{
+  max-width: 100%;
+  display: block;
+}
+
+a{
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol{
+  list-style: none;
+}
+
+h1, h2, h3, h4{
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  line-height: 1.15;
+}
+
+h1{ font-size: clamp(2rem, 4vw, 3rem); }
+h2{ font-size: clamp(1.5rem, 2.6vw, 2.1rem); }
+h3{ font-size: 1.15rem; }
+
+p{
+  color: var(--text-secondary);
+}
+
+code, .mono{
+  font-family: var(--font-mono);
+}
+
+::selection{
+  background: var(--signal);
+  color: var(--text-on-signal);
+}
+
+::-webkit-scrollbar{ width: 10px; height: 10px; }
+::-webkit-scrollbar-track{ background: transparent; }
+::-webkit-scrollbar-thumb{
+  background: var(--border-glass-strong);
+  border-radius: var(--r-pill);
+}
+::-webkit-scrollbar-thumb:hover{ background: var(--text-muted); }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus visibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible{
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+/* Utility */
+.visually-hidden{
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.text-center{ text-align: center; }
+.mt-0{ margin-top: 0; }
+
+/* Page fade-in transition */
+.page-fade{
+  animation: pageFade var(--dur-slow) var(--ease-out) both;
+}
+@keyframes pageFade{
+  from{ opacity: 0; transform: translateY(6px); }
+  to{ opacity: 1; transform: translateY(0); }
+}

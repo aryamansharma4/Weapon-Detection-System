@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}Camera Configuration — WDS{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/camera.css') }}">{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">Live monitoring</div>
+      <h1 class="page-title">Camera Configuration</h1>
+      <p>Choose a source and start streaming live detections through the YOLOv5 engine.</p>
+    </div>
+  </div>
+
+  <div class="camera-grid">
+    <div class="card">
+      <form method="POST" data-loading-form>
+        <div class="radio-group">
+          <label class="radio-card">
+            <input type="radio" name="camera_type" value="webcam" checked>
+            <span>Webcam</span>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="camera_type" value="ip">
+            <span>IP Camera</span>
+          </label>
+        </div>
+
+        <div class="field ip-field" data-ip-field>
+          <label for="camera_url">Camera URL</label>
+          <input class="input" type="text" id="camera_url" name="camera_url" placeholder="http://192.168.x.x:8080/video">
+          <div class="field-hint">Enter the stream URL for your IP camera.</div>
+        </div>
+
+        <button
+            type="button"
+            class="btn btn-primary"
+            data-start-detection
+        >
+            <span class="spinner"></span>
+            <span class="btn-label">Start Detection</span>
+        </button>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="section-head panel-head">
+        <h2>Live Detection Feed</h2>
+      </div>
+
+      <div class="feed-frame">
+
+    <!-- Hidden source used to capture webcam frames -->
+          <video
+             data-webcam-video
+             autoplay
+             playsinline
+             muted
+          ></video>
+
+    <!-- Single visible processed detection view -->
+          <canvas
+              data-detection-canvas
+          ></canvas>
+
+    <!-- IP camera detection stream -->
+          <img
+              data-feed-img
+              alt="Live detection feed"
+          >
+
+          <div
+              class="feed-placeholder is-visible"
+              data-feed-placeholder
+          >
+             <svg
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.5"
+            >
+                 <rect
+                     x="2"
+                     y="6"
+                     width="14"
+                     height="12"
+                     rx="2"
+                />
+
+                  <path
+                     d="M16 10l6-3v10l-6-3"
+                  />
+            </svg>
+
+            <div>
+                 <strong>
+                     Camera Offline
+                </strong>
+
+                <p>
+                    Start the live detection feed
+                    to begin.
+                </p>
+            </div>
+        </div>
+
+      </div>
+
+      <div class="feed-controls">
+
+          <button
+             type="button"
+             class="btn btn-primary"
+             data-start-detection
+          >
+             <span class="btn-label">
+                 Start Detection
+              </span>
+          </button>
+
+          <button
+             type="button"
+              class="btn btn-secondary"
+              data-feed-toggle
+          >
+              Start Live Feed
+          </button>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}<script src="{{ url_for('static', filename='js/camera.js') }}"></script>{% endblock %}

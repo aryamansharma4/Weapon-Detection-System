@@ -1,0 +1,112 @@
+/* =============================================================
+   WDS Detection History
+============================================================= */
+
+.history-toolbar{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.search-field{
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+
+.search-field svg{
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px; height: 16px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-field input{
+  padding-left: 40px;
+}
+
+.filter-select{
+  padding: 12px 16px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-glass-strong);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.history-count{
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.pagination{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.pagination-info{
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.pagination-controls{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.page-btn{
+  width: 36px; height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border-glass-strong);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+}
+
+.page-btn:hover{ border-color: var(--signal); color: var(--signal); }
+
+.page-btn.is-active{
+  background: var(--signal);
+  border-color: var(--signal);
+  color: var(--text-on-signal);
+  font-weight: 600;
+}
+
+.page-btn[disabled]{
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.row-hidden{ display: none !important; }
+
+.time-cell{
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.file-cell{
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

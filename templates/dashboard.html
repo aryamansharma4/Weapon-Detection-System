@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — WDS{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="welcome">
+    <div class="welcome-title">
+      <div class="eyebrow">Control center</div>
+      <h1>Welcome, {{ username }}</h1>
+      <p>Here's what your detection system has seen.</p>
+    </div>
+    <div class="welcome-clock">
+      Local time
+      <span class="clock-time" data-clock>--:--:--</span>
+    </div>
+  </div>
+
+  <div class="stat-grid">
+    <div class="card stat-card reticle">
+      <div class="stat-card-head">
+        <span class="stat-label">Total Detections</span>
+        <span class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4v16h16"/><path d="M8 15l3-4 3 3 5-7"/></svg>
+        </span>
+      </div>
+      <div class="stat-value">{{ total }}</div>
+      <div class="stat-trend">All time, across upload &amp; live camera</div>
+    </div>
+
+    <div class="card stat-card reticle">
+      <div class="stat-card-head">
+        <span class="stat-label">Last Threat</span>
+        <span class="stat-icon {{ 'is-threat' if latest_threat != 'None' else '' }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4v5c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V7l8-4Z"/></svg>
+        </span>
+      </div>
+      <div class="stat-value {{ 'is-threat' if latest_threat != 'None' else 'is-safe' }}">{{ latest_threat }}</div>
+      <div class="stat-trend">Most recent classified object</div>
+    </div>
+
+    <div class="card stat-card reticle">
+      <div class="stat-card-head">
+        <span class="stat-label">Confidence</span>
+        <span class="stat-icon is-info">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </span>
+      </div>
+      <div class="stat-value">{{ latest_confidence }}%</div>
+      <div class="confidence confidence--stat">
+        <div class="confidence-track">
+          <div class="confidence-fill {{ 'is-high' if latest_confidence >= 70 else '' }}" style="width: {{ latest_confidence }}%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card stat-card reticle">
+      <div class="stat-card-head">
+        <span class="stat-label">System Status</span>
+        <span class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h4l2-7 4 14 2-7h4"/></svg>
+        </span>
+      </div>
+      <div class="stat-value is-safe stat-value--sm">Operational</div>
+      <div class="stat-trend">YOLOv5 engine ready</div>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <div>
+      <div class="card section">
+        <div class="section-head panel-head">
+          <h2>Recent Detections</h2>
+          <a href="{{ url_for('history') }}" class="btn btn-ghost btn-sm">View all</a>
+        </div>
+
+        {% if recent %}
+          {% for item in recent %}
+          <div class="detection-row">
+            <img class="detection-thumb"
+                 src="{{ url_for('static', filename='results/result_' ~ item.filename) }}"
+                 onerror="this.style.visibility='hidden'; this.onerror=null;"
+                 alt="">
+            <div class="detection-info">
+              <div class="d-title">{{ item.threat }}</div>
+              <div class="d-meta">{{ item.timestamp.strftime('%b %d, %H:%M') if item.timestamp else '' }} &middot; {{ item.source }}</div>
+            </div>
+            <span class="badge {{ 'badge-threat' if item.threat|lower != 'none' else 'badge-safe' }}">
+              <span class="badge-dot"></span>{{ "%.0f"|format(item.confidence * 100) }}%
+            </span>
+          </div>
+          {% endfor %}
+        {% else %}
+        <div class="empty-state empty-state--compact">
+          <h3>No detections yet</h3>
+          <p>Run an upload detection or start the live camera to see activity here.</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="section">
+        <div class="section-head panel-head">
+          <h2>Quick Actions</h2>
+        </div>
+        <div class="quick-actions">
+          <a href="{{ url_for('upload') }}" class="card card--hover quick-action">
+            <span class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></span>
+            <span class="qa-title">Upload Detection</span>
+            <span class="qa-desc">Scan a photo for weapons</span>
+          </a>
+          <a href="{{ url_for('camera') }}" class="card card--hover quick-action">
+            <span class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/></svg></span>
+            <span class="qa-title">Live Camera</span>
+            <span class="qa-desc">Monitor a webcam or IP feed</span>
+          </a>
+          <a href="{{ url_for('history') }}" class="card card--hover quick-action">
+            <span class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5M12 7v5l4 2"/></svg></span>
+            <span class="qa-title">Detection History</span>
+            <span class="qa-desc">Search and review past scans</span>
+          </a>
+          <a href="{{ url_for('logout') }}" class="card card--hover quick-action" data-confirm="You'll need to sign back in to access the dashboard." data-confirm-title="Log out of WDS?">
+            <span class="qa-icon is-threat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg></span>
+            <span class="qa-title">Logout</span>
+            <span class="qa-desc">End your session</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-head panel-head">
+        <h2>Threat Level</h2>
+      </div>
+      <div class="threat-meter">
+        <div class="threat-ring">
+          <svg viewBox="0 0 120 120">
+            <circle class="threat-ring-track" cx="60" cy="60" r="52" fill="none" stroke-width="10"/>
+            <circle class="threat-ring-fill" cx="60" cy="60" r="52" fill="none" stroke-width="10"
+              stroke-dasharray="{{ 326.7 }}"
+              stroke-dashoffset="{{ 326.7 - (326.7 * (latest_confidence / 100)) }}"/>
+          </svg>
+          <div class="threat-ring-label">
+            <span class="value">{{ latest_confidence }}%</span>
+            <span class="unit">confidence</span>
+          </div>
+        </div>
+        <span class="badge threat-status-badge {{ 'badge-threat' if latest_threat != 'None' else 'badge-safe' }}">
+          <span class="badge-dot"></span>
+          {{ 'Threat Detected' if latest_threat != 'None' else 'All Clear' }}
+        </span>
+        <p class="threat-desc">
+          {% if latest_threat != 'None' %}
+            Latest scan classified <strong class="text-strong">{{ latest_threat }}</strong> with {{ latest_confidence }}% confidence.
+          {% else %}
+            No threats have been detected yet. Run a scan to populate this panel.
+          {% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Log in — WDS{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">{% endblock %}
+
+{% block content %}
+<div class="split">
+  <div class="auth-side">
+    <div class="auth-scan"></div>
+    <div class="auth-side-content">
+      <div class="eyebrow">AI Security Platform</div>
+      <h1>Welcome back to the console.</h1>
+      <p>Sign in to review live camera feeds, run upload detections, and audit your detection history.</p>
+    </div>
+    <div class="auth-stats">
+      <div class="auth-stat">
+        <div class="stat-num">YOLOv5</div>
+        <div class="stat-label">Detection engine</div>
+      </div>
+      <div class="auth-stat">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Monitoring ready</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-form-side">
+    <div class="auth-box">
+      <a href="{{ url_for('home') }}" class="brand">
+        <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="20" cy="20" r="17" stroke="var(--signal)" stroke-width="1.4" opacity="0.35"/>
+          <circle cx="20" cy="20" r="6.5" stroke="var(--signal)" stroke-width="1.6"/>
+          <path stroke="var(--signal)" d="M20 2v8M20 30v8M2 20h8M30 20h8" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <span>WDS</span>
+      </a>
+
+      <h2>Log in</h2>
+      <p class="lede">Enter your credentials to access the dashboard.</p>
+
+      <form method="POST" data-loading-form data-login-form novalidate>
+        <div class="field">
+          <label for="username">Username</label>
+          <input class="input" type="text" id="username" name="username" placeholder="Your username" required autocomplete="username">
+          <div class="field-error"></div>
+        </div>
+
+        <div class="field password-field">
+          <label for="password">Password</label>
+          <input class="input" type="password" id="password" name="password" placeholder="Your password" required autocomplete="current-password">
+          <button type="button" class="password-toggle" data-password-toggle="password" aria-label="Show password">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+          <div class="field-error"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">
+          <span class="spinner"></span>
+          <span class="btn-label">Log in</span>
+        </button>
+      </form>
+
+      <p class="auth-footer-note">
+        Don't have an account? <a href="{{ url_for('signup') }}">Register</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}<script src="{{ url_for('static', filename='js/auth.js') }}"></script>{% endblock %}

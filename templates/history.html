@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}Detection History — WDS{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">Audit trail</div>
+      <h1 class="page-title">Detection History</h1>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="history-toolbar">
+      <div class="search-field">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input type="text" class="input" placeholder="Search by filename, threat, or source" data-history-search>
+      </div>
+
+      <select class="filter-select" data-history-filter>
+        <option value="">All threats</option>
+        {% for t in detections|map(attribute='threat')|unique|list %}
+        <option value="{{ t }}">{{ t }}</option>
+        {% endfor %}
+      </select>
+
+      <span class="history-count" data-history-count></span>
+    </div>
+
+    <div class="table-wrap {{ 'is-hidden' if not detections else '' }}" data-history-tablewrap>
+      <table data-history-table>
+        <thead>
+          <tr>
+            <th class="sortable sort-active" data-sort-key="timestamp">Time <span class="sort-arrow">&darr;</span></th>
+            <th>Image</th>
+            <th class="sortable" data-sort-key="threat">Threat <span class="sort-arrow">&updownarrow;</span></th>
+            <th class="sortable" data-sort-key="confidence">Confidence <span class="sort-arrow">&updownarrow;</span></th>
+            <th class="sortable" data-sort-key="source">Source <span class="sort-arrow">&updownarrow;</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in detections %}
+          <tr data-row
+              data-filename="{{ row.filename }}"
+              data-threat="{{ row.threat }}"
+              data-source="{{ row.source }}"
+              data-confidence="{{ row.confidence }}"
+              data-timestamp="{{ row.timestamp.timestamp() if row.timestamp else 0 }}">
+            <td class="time-cell">{{ row.timestamp.strftime('%b %d, %Y %H:%M') if row.timestamp else '—' }}</td>
+            <td>
+
+            {% if row.source == "Live Camera" %}
+
+            <img
+                class="row-thumb"
+                src="{{ url_for('static', filename='snapshots/' ~ row.filename) }}"
+                onerror="this.style.visibility='hidden'; this.onerror=null;"
+                alt="Live Snapshot">
+
+            {% else %}
+
+            <img
+                class="row-thumb"
+                src="{{ url_for('static', filename='results/result_' ~ row.filename) }}"
+                onerror="this.style.visibility='hidden'; this.onerror=null;"
+                alt="Detection Result">
+
+            {% endif %}
+
+            </td>
+            <td>
+              <span class="badge {{ 'badge-threat' if row.threat|lower != 'none' else 'badge-safe' }}">
+                <span class="badge-dot"></span>{{ row.threat }}
+              </span>
+            </td>
+            <td>
+              <div class="confidence">
+                <div class="confidence-track">
+                  <div class="confidence-fill {{ 'is-high' if row.confidence >= 0.7 else '' }}" style="width: {{ (row.confidence * 100)|round(0) }}%;"></div>
+                </div>
+                <span class="confidence-value">{{ "%.2f"|format(row.confidence * 100) }}%</span>
+              </div>
+            </td>
+            <td class="file-cell">{{ row.source }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="empty-state {{ '' if not detections else 'is-hidden' }}" data-history-empty>
+      <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v16h16"/><path d="M8 15l3-4 3 3 5-7"/></svg>
+      <h3>No detections yet</h3>
+      <p>Run an upload or start the live camera to build detection history.</p>
+    </div>
+
+    <div class="pagination" data-pagination>
+      <span class="pagination-info" data-pagination-info></span>
+      <div class="pagination-controls" data-pagination-controls></div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}<script src="{{ url_for('static', filename='js/history.js') }}"></script>{% endblock %}

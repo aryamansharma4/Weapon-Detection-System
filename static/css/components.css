@@ -1,0 +1,512 @@
+/* =============================================================
+   WDS Components
+============================================================= */
+
+/* ---------------- Glass card ---------------- */
+.card{
+  position: relative;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--r-lg);
+  padding: 26px;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+}
+
+.card--hover:hover{
+  transform: translateY(-3px);
+  border-color: var(--border-glass-strong);
+}
+
+.card--flat{
+  box-shadow: none;
+}
+
+/* Reticle corner brackets — signature motif, echoes a camera viewfinder */
+.reticle{
+  position: relative;
+}
+
+.reticle::before,
+.reticle::after{
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--signal);
+  opacity: .55;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.reticle::before{
+  top: -1px; left: -1px;
+  border-right: none;
+  border-bottom: none;
+  border-top-left-radius: 6px;
+}
+
+.reticle::after{
+  bottom: -1px; right: -1px;
+  border-left: none;
+  border-top: none;
+  border-bottom-right-radius: 6px;
+}
+
+.reticle:hover::before,
+.reticle:hover::after{
+  opacity: 1;
+}
+
+/* ---------------- Buttons ---------------- */
+.btn{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.94rem;
+  padding: 12px 22px;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-base) var(--ease-out), background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), opacity var(--dur-fast);
+  text-decoration: none;
+}
+
+.btn:active{ transform: translateY(1px) scale(.99); }
+
+.btn-primary{
+  background: var(--signal);
+  color: var(--text-on-signal);
+  box-shadow: var(--shadow-signal);
+}
+.btn-primary:hover{
+  background: var(--signal-dim);
+  transform: translateY(-2px);
+}
+
+.btn-secondary{
+  background: var(--bg-glass-soft);
+  border-color: var(--border-glass-strong);
+  color: var(--text-primary);
+}
+.btn-secondary:hover{
+  border-color: var(--signal);
+  color: var(--signal);
+  transform: translateY(-2px);
+}
+
+.btn-ghost{
+  background: transparent;
+  color: var(--text-secondary);
+}
+.btn-ghost:hover{ color: var(--text-primary); }
+
+.btn-danger{
+  background: transparent;
+  border-color: var(--threat);
+  color: var(--threat);
+}
+.btn-danger:hover{
+  background: var(--threat-soft);
+}
+
+.btn-block{ width: 100%; }
+
+.btn[disabled],
+.btn.is-loading{
+  pointer-events: none;
+  opacity: .75;
+}
+
+.btn .spinner{
+  display: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.35);
+  border-top-color: currentColor;
+  animation: spin .7s linear infinite;
+}
+
+.btn.is-loading .spinner{ display: inline-block; }
+.btn.is-loading .btn-label{ opacity: .001; position: absolute; }
+
+@keyframes spin{ to{ transform: rotate(360deg); } }
+
+/* ---------------- Inputs ---------------- */
+.field{
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.field label{
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"]{
+  width: 100%;
+  padding: 13px 15px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-glass-strong);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.input::placeholder,
+input::placeholder{ color: var(--text-muted); }
+
+.input:focus,
+input:focus{
+  outline: none;
+  border-color: var(--signal);
+  box-shadow: 0 0 0 3px var(--signal-soft);
+}
+
+.field.has-error .input,
+.field.has-error input{
+  border-color: var(--threat);
+  box-shadow: 0 0 0 3px var(--threat-soft);
+}
+
+.field-error{
+  display: none;
+  margin-top: 7px;
+  font-size: 0.8rem;
+  color: var(--threat);
+}
+
+.field.has-error .field-error{ display: block; }
+
+.field-hint{
+  margin-top: 7px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.radio-card{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-glass-strong);
+  background: var(--bg-surface);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+
+.radio-card:hover{ border-color: var(--border-glass-strong); background: var(--bg-surface-2); }
+
+.radio-card input{ width: auto; margin: 0; accent-color: var(--signal); }
+
+.radio-card.is-active{
+  border-color: var(--signal);
+  background: var(--signal-soft);
+}
+
+/* ---------------- Badges ---------------- */
+.badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+
+.badge-dot{
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.badge-threat{ background: var(--threat-soft); color: var(--threat); }
+.badge-safe{ background: var(--signal-soft); color: var(--signal); }
+.badge-warn{ background: var(--warn-soft); color: var(--warn); }
+.badge-neutral{ background: var(--bg-glass-soft); color: var(--text-secondary); }
+
+/* Confidence meter */
+.confidence{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 110px;
+}
+
+.confidence-track{
+  flex: 1;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--bg-surface-2);
+  overflow: hidden;
+}
+
+.confidence-fill{
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg, var(--signal-dim), var(--signal));
+}
+
+.confidence-fill.is-high{ background: linear-gradient(90deg, #ff8a3d, var(--threat)); }
+
+.confidence-value{
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  min-width: 42px;
+  text-align: right;
+}
+
+/* ---------------- Toasts ---------------- */
+.toast-stack{
+  position: fixed;
+  top: calc(var(--nav-height) + 16px);
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(360px, calc(100vw - 40px));
+}
+
+.toast{
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass-strong);
+  border-left: 3px solid var(--signal);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-md);
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  animation: toastIn var(--dur-base) var(--ease-out) both;
+}
+
+.toast.is-error{ border-left-color: var(--threat); }
+.toast.is-success{ border-left-color: var(--signal); }
+
+.toast.is-leaving{
+  animation: toastOut var(--dur-fast) var(--ease-in-out) both;
+}
+
+@keyframes toastIn{
+  from{ opacity: 0; transform: translateX(24px); }
+  to{ opacity: 1; transform: translateX(0); }
+}
+@keyframes toastOut{
+  to{ opacity: 0; transform: translateX(24px); }
+}
+
+.toast-close{
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 0 0 8px;
+}
+
+/* ---------------- Modal / confirm dialog ---------------- */
+.modal-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(3,5,10,.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.modal-overlay.is-open{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal{
+  width: 100%;
+  max-width: 380px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-glass-strong);
+  border-radius: var(--r-lg);
+  padding: 26px;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(10px) scale(.98);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.modal-overlay.is-open .modal{
+  transform: translateY(0) scale(1);
+}
+
+.modal h3{ margin-bottom: 8px; }
+.modal p{ margin-bottom: 22px; font-size: 0.9rem; }
+
+.modal-actions{
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* ---------------- Utility classes ----------------
+   Small set of reusable helpers so page templates don't need
+   one-off inline style="" attributes for common tweaks. Truly
+   dynamic, data-driven values (bar widths, ring offsets, JS
+   visibility toggles) remain inline by necessity. */
+.page-title{ font-size: 1.8rem; }
+.panel-head h2{ font-size: 1.05rem; margin: 0; }
+.subhead{ margin-bottom: 14px; }
+.btn-sm{ padding: 8px 14px; }
+.btn-row{ display: flex; gap: 14px; flex-wrap: wrap; }
+.text-strong{ color: var(--text-primary); }
+.stat-icon--block{ margin-bottom: 16px; }
+.stat-value--sm{ font-size: 1.4rem; }
+.card-media{ padding: 0; overflow: hidden; }
+.card-media svg{ width: 100%; display: block; }
+.section-spaced{ margin-top: 50px; }
+.cta-card{ text-align: center; padding: 50px 30px; margin-top: 40px; }
+.cta-lede{ max-width: 480px; margin: 10px auto 26px; }
+.hero-lede{ font-size: 1.08rem; max-width: 540px; margin: 18px 0 30px; }
+.hero-grid{
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+  gap: 40px;
+}
+
+/* ---------------- Empty state ---------------- */
+.empty-state{
+  text-align: center;
+  padding: 70px 24px;
+  color: var(--text-muted);
+}
+
+.empty-state--compact{ padding: 36px 16px; }
+
+.is-hidden{ display: none !important; }
+
+.empty-state .empty-icon{
+  width: 56px; height: 56px;
+  margin: 0 auto 18px;
+  opacity: .5;
+}
+
+.empty-state h3{ color: var(--text-secondary); margin-bottom: 8px; }
+
+/* ---------------- Dropzone ---------------- */
+.dropzone{
+  border: 1.5px dashed var(--border-glass-strong);
+  border-radius: var(--r-lg);
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+  background: var(--bg-glass-soft);
+}
+
+.dropzone:hover,
+.dropzone.is-dragover{
+  border-color: var(--signal);
+  background: var(--signal-soft);
+}
+
+.dropzone-icon{
+  width: 44px; height: 44px;
+  margin: 0 auto 16px;
+  color: var(--signal);
+}
+
+/* ---------------- Table ---------------- */
+.table-wrap{
+  overflow-x: auto;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-glass);
+}
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+thead th{
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: 16px 18px;
+  background: var(--bg-glass-soft);
+  border-bottom: 1px solid var(--border-glass);
+  white-space: nowrap;
+}
+
+thead th.sortable{
+  cursor: pointer;
+  user-select: none;
+}
+
+thead th.sortable:hover{ color: var(--text-secondary); }
+
+thead th .sort-arrow{
+  margin-left: 4px;
+  opacity: .4;
+}
+
+thead th.sort-active .sort-arrow{
+  opacity: 1;
+  color: var(--signal);
+}
+
+tbody td{
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-glass);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+
+tbody tr{
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+tbody tr:hover{ background: var(--bg-glass-soft); }
+tbody tr:last-child td{ border-bottom: none; }
+
+.row-thumb{
+  width: 46px; height: 46px;
+  border-radius: var(--r-sm);
+  object-fit: cover;
+  border: 1px solid var(--border-glass);
+  background: var(--bg-surface-2);
+}
