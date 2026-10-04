@@ -388,6 +388,9 @@ Licensed under the **MIT License**.
 
 ## Contributor
 
+**Aryaman Sharma**
+[Github](https://github.com/aryamansharma4)
+
 **Tanishq Kumar Gupta**
 [GitHub](https://github.com/tanishqkumargupta)
 
